@@ -4,9 +4,62 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagementApp"
+        xmlns:vm="clr-namespace:ProjectManagementApp.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Управление проектами" Height="450" Width="700">
+    <Window.DataContext>
+        <vm:MainWindowVM/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <Style x:Key="BtnStyle" TargetType="Button">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="2" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="#FFF3FFDE"/>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <TabControl>
+            <TabItem Header="Проекты">
+                <Grid Background="#FFE5E5E5">
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Сотрудники">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <Button Style="{StaticResource BtnStyle}" Content="Добавить" Command="{Binding AddCommand}"/>
+                        <Button Style="{StaticResource BtnStyle}" Content="Редактировать" Command="{Binding EditCommand}"
+                                CommandParameter="{Binding ElementName=employeesList}"/>
+                        <Button Style="{StaticResource BtnStyle}" Content="Удалить"/>
+                    </StackPanel>
+                    
+                    <ListView x:Name="employeesList" Grid.Column="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Имя" Width="Auto" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+                                <GridViewColumn Header="Фамилия" Width="Auto" DisplayMemberBinding="{Binding Path=Surname}"></GridViewColumn>
+                                <GridViewColumn Header="Отчество" Width="Auto" DisplayMemberBinding="{Binding Path=Patronymic}"></GridViewColumn>
+                                <GridViewColumn Header="Email" Width="Auto" DisplayMemberBinding="{Binding Path=Email}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>

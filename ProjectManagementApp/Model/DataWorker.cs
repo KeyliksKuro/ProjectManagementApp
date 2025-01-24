@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace ProjectManagementApp.Model
 {
     public static class DataWorker
     {
-        private static List<Employee> Employees;
-        private static List<Project> Projects;
+        private static ObservableCollection<Employee> Employees;
+        private static ObservableCollection<Project> Projects;
         static DataWorker()
         {
-            Employees = new List<Employee>()
+            Employees = new ObservableCollection<Employee>()
             {
                 new Employee()
                 {
@@ -29,14 +30,14 @@ namespace ProjectManagementApp.Model
                     Email = "name2@mail"
                 }
             };
-            Projects = new List<Project>()
+            Projects = new ObservableCollection<Project>()
             {
                 new Project()
                 {
                     Name = "Project1",
                     CustomerCompany = "Company1",
                     ExecutingCompany = "Company2",
-                    Employees = new List<Employee>(),
+                    Employees = new ObservableCollection<Employee>(),
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Priority = 5
@@ -44,13 +45,30 @@ namespace ProjectManagementApp.Model
             };
         }
 
-        public static List<Employee> GetAllEmployees()
+        public static ObservableCollection<Employee> GetAllEmployees()
         {
             return Employees;
         }
-        public static List<Project> GetAllProjects()
+        public static ObservableCollection<Project> GetAllProjects()
         {
             return Projects;
+        }
+        public static Employee CopyEmployee(Employee employee)
+        {
+            return new Employee()
+            {
+                Name = employee.Name,
+                Surname = employee.Surname,
+                Patronymic = employee.Patronymic,
+                Email = employee.Email
+            };
+        }
+        public static void EditEmployee(Employee original, Employee edited)
+        {
+            original.Name = edited.Name;
+            original.Surname = edited.Surname;
+            original.Patronymic = edited.Patronymic;
+            original.Email = edited.Email;
         }
     }
 }
