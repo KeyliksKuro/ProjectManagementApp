@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagementApp.View"
         xmlns:vm="clr-namespace:ProjectManagementApp.ViewModel"
+        
         d:DataContext="{x:Type vm:EditEmployeeVM}"
+        
         mc:Ignorable="d"
         x:Name="editEmployeeWnd"
         Title="Ввода данных сотрудника" Height="300" Width="300">

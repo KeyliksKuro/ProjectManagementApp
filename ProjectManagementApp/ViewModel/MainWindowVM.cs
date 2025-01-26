@@ -14,16 +14,17 @@ namespace ProjectManagementApp.ViewModel
 {
     class MainWindowVM : ViewModelBase
     {
+        private Employee? selectedEmployee;
         public ObservableCollection<Employee> Employees { get; set; }
 
-        private Employee selectedEmployee;
-        public Employee SelectedEmployee
+
+        public Employee? SelectedEmployee
         {
             get { return selectedEmployee; }
             set
             {
                 selectedEmployee = value;
-                OnPropertyChanged(nameof(SelectedEmployee));
+                OnPropertyChanged();
             }
         }
 
@@ -43,21 +44,11 @@ namespace ProjectManagementApp.ViewModel
                   (addCommand = new RelayCommand(obj =>
                   {
                       Employee employee = new Employee();
-                      EditEmployeeVM windowVM = new EditEmployeeVM(employee);
-
-                      EditEmployeeWindow window = new EditEmployeeWindow();
-                      window.DataContext = windowVM;
-
-                      window.Owner = Application.Current.MainWindow;
-                      window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                      if(window.ShowDialog() == true)
-                      {
-                          Employees.Add(employee);
-                      }
+                      EditEmployee(employee, () => Employees.Add(employee));
                   }));
             }
         }
+
         private RelayCommand editCommand;
         public RelayCommand EditCommand
         {
@@ -67,24 +58,43 @@ namespace ProjectManagementApp.ViewModel
                   (editCommand = new RelayCommand(obj =>
                   {
                       Employee employee = DataWorker.CopyEmployee(SelectedEmployee);
-                      EditEmployeeVM windowVM = new EditEmployeeVM(employee);
-
-                      EditEmployeeWindow window = new EditEmployeeWindow();
-                      window.DataContext = windowVM;
-
-                      window.Owner = Application.Current.MainWindow;
-                      window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                      if (window.ShowDialog() == true)
-                      {
-                          DataWorker.EditEmployee(SelectedEmployee, employee);
-                          (obj as ListView)?.Items.Refresh();
-                      }
+                      EditEmployee(employee, () => DataWorker.EditEmployee(SelectedEmployee, employee));
                   },
                   (obj) => SelectedEmployee != null));
             }
         }
 
+        private RelayCommand deleteCommand;
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ??
+                  (deleteCommand = new RelayCommand(obj =>
+                  {
+                      Employees.Remove(SelectedEmployee);
+                      SelectedEmployee = Employees.FirstOrDefault();
+                  },
+                  (obj) => SelectedEmployee != null));
+            }
+        }
         #endregion
+
+        private void EditEmployee(Employee employee, Action callBack)
+        {
+            EditEmployeeVM windowVM = new EditEmployeeVM()
+            {
+                Employee = employee
+            };
+
+            EditEmployeeWindow window = new EditEmployeeWindow();
+            window.DataContext = windowVM;
+
+            window.Owner = Application.Current.MainWindow;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            if (window.ShowDialog() == true)
+                callBack?.Invoke();
+        }
     }
 }

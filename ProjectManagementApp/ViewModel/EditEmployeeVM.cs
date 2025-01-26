@@ -19,22 +19,18 @@ namespace ProjectManagementApp.ViewModel
             set { _employee = value; }
         }
 
-        public EditEmployeeVM(Employee employee)
-        {
-            Employee = employee;
-        }
+
 
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
             get
             {
-                return saveCommand ??
-                  (saveCommand = new RelayCommand(obj =>
-                  {
-                      Window window = obj as Window;
-                      window.DialogResult = true;
-                  }));
+                return saveCommand ?? 
+                    (saveCommand = new RelayCommand(obj =>
+                    {
+                        (obj as Window).DialogResult = true;
+                    }));
             }
         }
     }

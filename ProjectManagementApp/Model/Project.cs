@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectManagementApp.Model
 {
-    public class Project
+    public class Project : PropertyChangedBase
     {
         public string Name { get; set; }
         public string CustomerCompany { get; set; }

@@ -6,11 +6,48 @@ using System.Threading.Tasks;
 
 namespace ProjectManagementApp.Model
 {
-    public class Employee
+    public class Employee : PropertyChangedBase
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Patronymic { get; set; }
-        public string Email { get; set; }
+        private string _name;
+        private string _surname;
+        private string _patronymic;
+        private string _email;
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Surname
+        {
+            get => _surname;
+            set
+            {
+                _surname = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Patronymic
+        {
+            get => _patronymic;
+            set
+            {
+                _patronymic = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
