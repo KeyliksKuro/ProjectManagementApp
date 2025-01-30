@@ -28,6 +28,20 @@ namespace ProjectManagementApp.Model
                     Surname = "Surname2",
                     Patronymic = "Patronymic2",
                     Email = "name2@mail"
+                },
+                new Employee()
+                {
+                    Name = "Name3",
+                    Surname = "Surname3",
+                    Patronymic = "Patronymic3",
+                    Email = "name3@mail"
+                },
+                new Employee()
+                {
+                    Name = "Name4",
+                    Surname = "Surname4",
+                    Patronymic = "Patronymic4",
+                    Email = "name4@mail"
                 }
             };
             Projects = new ObservableCollection<Project>()
@@ -37,7 +51,25 @@ namespace ProjectManagementApp.Model
                     Name = "Project1",
                     CustomerCompany = "Company1",
                     ExecutingCompany = "Company2",
-                    Employees = new ObservableCollection<Employee>(),
+                    ProjectManager = Employees[0],
+                    Employees = new ObservableCollection<Employee>()
+                    {
+                        Employees[1]
+                    },
+                    Start = DateTime.Now,
+                    End = DateTime.Now,
+                    Priority = 5
+                },
+                new Project()
+                {
+                    Name = "Project2",
+                    CustomerCompany = "Company1",
+                    ExecutingCompany = "Company3",
+                    ProjectManager = Employees[2],
+                    Employees = new ObservableCollection<Employee>()
+                    {
+                        Employees[3]
+                    },
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Priority = 5

@@ -8,46 +8,51 @@ namespace ProjectManagementApp.Model
 {
     public class Employee : PropertyChangedBase
     {
-        private string _name;
-        private string _surname;
-        private string _patronymic;
-        private string _email;
+        private string name;
+        private string surname;
+        private string patronymic;
+        private string email;
 
         public string Name
         {
-            get => _name;
+            get => name;
             set
             {
-                _name = value;
+                name = value;
                 OnPropertyChanged();
             }
         }
         public string Surname
         {
-            get => _surname;
+            get => surname;
             set
             {
-                _surname = value;
+                surname = value;
                 OnPropertyChanged();
             }
         }
         public string Patronymic
         {
-            get => _patronymic;
+            get => patronymic;
             set
             {
-                _patronymic = value;
+                patronymic = value;
                 OnPropertyChanged();
             }
         }
         public string Email
         {
-            get => _email;
+            get => email;
             set
             {
-                _email = value;
+                email = value;
                 OnPropertyChanged();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Surname} {Name}";
         }
     }
 }

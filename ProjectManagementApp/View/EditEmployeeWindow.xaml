@@ -4,13 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagementApp.View"
-        xmlns:vm="clr-namespace:ProjectManagementApp.ViewModel"
-        
-        d:DataContext="{x:Type vm:EditEmployeeVM}"
-        
+        xmlns:m="clr-namespace:ProjectManagementApp.Model"
         mc:Ignorable="d"
+        
+        d:DataContext="{d:DesignInstance Type=m:Employee}"
+        
         x:Name="editEmployeeWnd"
-        Title="Ввода данных сотрудника" Height="300" Width="300">
+        Title="Ввода данных сотрудника"
+        Height="300"
+        Width="300"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -18,8 +22,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical" Width="200"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    DataContext="{Binding Employee}">
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Имя"/>
             <TextBox Text="{Binding Path=Name}"/>
             <TextBlock Text="Фамилия"/>
@@ -29,8 +32,6 @@
             <TextBlock Text="Email"/>
             <TextBox Text="{Binding Path=Email}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Сохранить"
-                Command="{Binding SaveCommand}"
-                CommandParameter="{Binding ElementName=editEmployeeWnd}"/>
+        <Button Grid.Row="1" Content="Сохранить" Click="SaveAndExit_Click"/>
     </Grid>
 </Window>
