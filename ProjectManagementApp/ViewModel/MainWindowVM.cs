@@ -14,15 +14,8 @@ namespace ProjectManagementApp.ViewModel
 
         public MainWindowVM()
         {
-            ProjectsTabVM = new ProjectsTabVM()
-            {
-                Projects = DataWorker.GetAllProjects(),
-                Employees = DataWorker.GetAllEmployees()
-            };
-            EmployeesTabVM = new EmployeesTabVM()
-            {
-                Employees = DataWorker.GetAllEmployees()
-            };
+            ProjectsTabVM = new ProjectsTabVM();
+            EmployeesTabVM = new EmployeesTabVM();
         }
     }
 }

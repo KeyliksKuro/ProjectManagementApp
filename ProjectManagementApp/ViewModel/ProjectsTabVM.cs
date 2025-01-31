@@ -3,46 +3,85 @@ using ProjectManagementApp.Services.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace ProjectManagementApp.ViewModel
 {
     class ProjectsTabVM : ViewModelBase
     {
-        private Project? selectedProject;
-        private Employee? selectedEmployeeToAdd;
-        private Employee? selectedEmployeeToRemove;
+        private string? filterCustomerCompany;
+        private string? filterExecutingCompany;
+        private int? filterPriority;
+        private DateTime? filterStartLeftBorder;
+        private DateTime? filterStartRightBorder;
 
+        public EditProjectVM EditProjectVM { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
-        public ObservableCollection<Employee> Employees { get; set; }
+        private CollectionViewSource CvsProjects { get; set; }
+        public ICollectionView ProjectsView { get => CvsProjects.View; }
+        public List<string>? CustomerCompanies { get; set; }
+        public List<string>? ExecutingCompanies { get; set; }
+        public List<int>? Priorities { get; set; }
+
+        public ProjectsTabVM()
+        {
+            EditProjectVM = new EditProjectVM();
+            Projects = DataWorker.GetAllProjects();
+
+            CvsProjects = new CollectionViewSource();
+            CvsProjects.Source = Projects;
+            CvsProjects.Filter += ApplyFilter;
+
+            FillFilters();
+        }
 
         #region PROPERTIES
-        public Project? SelectedProject
+        public string? FilterCustomerCompany
         {
-            get { return selectedProject; }
+            get => filterCustomerCompany;
             set
             {
-                selectedProject = value;
+                filterCustomerCompany = value;
                 OnPropertyChanged();
             }
         }
-        public Employee? SelectedEmployeeToAdd
+        public string? FilterExecutingCompany
         {
-            get { return selectedEmployeeToAdd; }
+            get => filterExecutingCompany;
             set
             {
-                selectedEmployeeToAdd = value;
+                filterExecutingCompany = value;
                 OnPropertyChanged();
             }
         }
-        public Employee? SelectedEmployeeToRemove
+        public int? FilterPriority
         {
-            get { return selectedEmployeeToRemove; }
+            get => filterPriority;
             set
             {
-                selectedEmployeeToRemove = value;
+                filterPriority = value;
+                OnPropertyChanged();
+            }
+        }
+        public DateTime? FilterStartLeftBorder
+        {
+            get => filterStartLeftBorder;
+            set
+            {
+                filterStartLeftBorder = value;
+                OnPropertyChanged();
+            }
+        }
+        public DateTime? FilterStartRightBorder
+        {
+            get => filterStartRightBorder;
+            set
+            {
+                filterStartRightBorder = value;
                 OnPropertyChanged();
             }
         }
@@ -57,44 +96,61 @@ namespace ProjectManagementApp.ViewModel
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand(obj =>
                   {
-                      SelectedEmployeeToAdd = null;
-                      SelectedEmployeeToRemove = null;
-                      Projects.Remove(SelectedProject!);
+                      Projects.Remove(EditProjectVM.SelectedProject!);
                   },
-                  (obj) => SelectedProject != null));
+                  (obj) => EditProjectVM.SelectedProject != null));
             }
         }
         #endregion
 
-        #region COMMANDS FOR EDITING PROJECT
-        private RelayCommand addEmployeeCommand;
-        public RelayCommand AddEmployeeCommand
+        #region FILTER COMMANDS
+        private RelayCommand filterChangedCommand;
+        public RelayCommand FilterChangedCommand
         {
             get
             {
-                return addEmployeeCommand ??
-                  (addEmployeeCommand = new RelayCommand(obj =>
+                return filterChangedCommand ??
+                  (filterChangedCommand = new RelayCommand(obj =>
                   {
-                      SelectedProject?.Employees.Add(SelectedEmployeeToAdd!);
-                  },
-                  (obj) => SelectedEmployeeToAdd != null
-                      && SelectedProject != null
-                      && !SelectedProject.Employees.Contains(SelectedEmployeeToAdd)));
+                      CvsProjects.View.Refresh();
+                  }));
             }
         }
-        private RelayCommand removeEmployeeCommand;
-        public RelayCommand RemoveEmployeeCommand
+
+        private RelayCommand filterCleanedCommand;
+        public RelayCommand FilterCleanedCommand
         {
             get
             {
-                return removeEmployeeCommand ??
-                  (removeEmployeeCommand = new RelayCommand(obj =>
+                return filterCleanedCommand ??
+                  (filterCleanedCommand = new RelayCommand(obj =>
                   {
-                      SelectedProject?.Employees.Remove(SelectedEmployeeToRemove!);
-                  },
-                  (obj) => SelectedEmployeeToRemove != null));
+                      FilterCustomerCompany = null;
+                      FilterExecutingCompany = null;
+                      FilterPriority = null;
+                      FilterStartLeftBorder = null;
+                      FilterStartRightBorder = null;
+                      FilterChangedCommand.Execute(this);
+                  }));
             }
         }
         #endregion
+
+        private void FillFilters()
+        {
+            CustomerCompanies = DataWorker.GetAllCustomerCompanies();
+            ExecutingCompanies = DataWorker.GetAllExecutingCompanies();
+            Priorities = DataWorker.GetAllPriorities();
+        }
+        private void ApplyFilter(object sender, FilterEventArgs e)
+        {
+            Project project = (Project)e.Item;
+
+            e.Accepted = (FilterCustomerCompany == null || FilterCustomerCompany.Equals(project.CustomerCompany))
+                && (FilterExecutingCompany == null || FilterExecutingCompany.Equals(project.ExecutingCompany))
+                && (FilterPriority == null || FilterPriority.Equals(project.Priority))
+                && (FilterStartLeftBorder == null || project.Start > FilterStartLeftBorder)
+                && (FilterStartRightBorder == null || project.Start < FilterStartRightBorder);
+        }
     }
 }

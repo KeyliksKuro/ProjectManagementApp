@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectManagementApp.View"
              xmlns:vm="clr-namespace:ProjectManagementApp.ViewModel"
-             d:DataContext="{d:DesignInstance Type=vm:ProjectsTabVM, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=vm:EditProjectVM, IsDesignTimeCreatable=True}"
              mc:Ignorable="d">
     <Grid Background="White">
         <ScrollViewer>
@@ -13,13 +13,13 @@
                 <Style TargetType="ScrollViewer">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding SelectedProject}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ScrollViewer.Style>
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="30,0,30,0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="30,0,30,30">
                 <TextBlock Text="Проект" Style="{StaticResource EditText}"/>
                 <TextBox Text="{Binding Path=SelectedProject.Name, UpdateSourceTrigger=PropertyChanged}"/>
                 

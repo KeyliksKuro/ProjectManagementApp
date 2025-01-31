@@ -4,15 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagementApp"
+        xmlns:util="clr-namespace:ProjectManagementApp.Utilities"
         xmlns:view="clr-namespace:ProjectManagementApp.View"
         xmlns:vm="clr-namespace:ProjectManagementApp.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
 
-        Title="Управление проектами" MinHeight="600" MinWidth="1200"
-        Height="600" Width="1200">
+        Title="Управление проектами"
+        MinHeight="600"
+        MinWidth="1200"
+        Height="600"
+        Width="1200">
+    
     <Grid>
         <TabControl>
+            <!--Tab Projects-->
             <TabItem Header="Проекты" DataContext="{Binding ProjectsTabVM}">
                 <Grid Background="{StaticResource BaseBrush}">
                     <Grid.ColumnDefinitions>
@@ -21,29 +27,112 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <!--Menu-->
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <Button Style="{StaticResource MenuButton}" Content="Добавить"/>
                         <Button Style="{StaticResource MenuButton}" Content="Удалить" Command="{Binding DeleteCommand}"/>
                     </StackPanel>
 
-                    <ListView Grid.Column="1" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Проект" Width="Auto" DisplayMemberBinding="{Binding Path=Name}"/>
-                                <GridViewColumn Header="Заказчик" Width="Auto" DisplayMemberBinding="{Binding Path=CustomerCompany}"/>
-                                <GridViewColumn Header="Исполнитель" Width="Auto" DisplayMemberBinding="{Binding Path=ExecutingCompany}"/>
-                                <GridViewColumn Header="Дата начала" Width="Auto" DisplayMemberBinding="{Binding Path=Start}"/>
-                                <GridViewColumn Header="Дата завершения" Width="Auto" DisplayMemberBinding="{Binding Path=End}"/>
-                                <GridViewColumn Header="Приоритет" Width="Auto" DisplayMemberBinding="{Binding Path=Priority}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Border Grid.Column="2" CornerRadius="2" BorderThickness="1" BorderBrush="#FF828790">
-                        <view:ProjectView/>
+                    <!--Projects-->
+                    <Border Grid.Column="1" Style="{StaticResource WindowBorder}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <!--Filters-->
+                            <Expander Grid.Row="0"
+                                      Header="Фильтры"
+                                      Background="{StaticResource BaseBrush}"
+                                      IsExpanded="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <WrapPanel Grid.Row="0" Orientation="Horizontal">
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Margin" Value="3,0,3,5"/>
+                                                <Setter Property="Width" Value="170"/>
+                                            </Style>
+                                        </WrapPanel.Resources>
+
+                                        <StackPanel>
+                                            <TextBlock Text="Заказчик"/>
+                                            <ComboBox ItemsSource="{Binding CustomerCompanies}"
+                                                      SelectedItem="{Binding FilterCustomerCompany}"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="Исполнитель"/>
+                                            <ComboBox ItemsSource="{Binding ExecutingCompanies}"
+                                                      SelectedItem="{Binding FilterExecutingCompany}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Дата начала (диапазон)"/>
+                                            <DatePicker SelectedDate="{Binding FilterStartLeftBorder}"/>
+                                            <DatePicker SelectedDate="{Binding FilterStartRightBorder}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3">
+                                            <TextBlock Text="Приоритет"/>
+                                            <ComboBox ItemsSource="{Binding Priorities}"
+                                                      SelectedItem="{Binding FilterPriority}"/>
+                                        </StackPanel>
+                                    </WrapPanel>
+
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <Button Content="Применить"
+                                                Style="{StaticResource FilterButton}"
+                                                Command="{Binding FilterChangedCommand}"/>
+                                        <Button Content="Сбросить"
+                                                Style="{StaticResource FilterButton}"
+                                                Command="{Binding FilterCleanedCommand}"/>
+                                    </StackPanel>
+                                    
+                                </Grid>
+                            </Expander>
+                            
+                            <!--List Projects-->
+                            <ListView Grid.Row="1"
+                                      ItemsSource="{Binding ProjectsView}"
+                                      SelectedItem="{Binding EditProjectVM.SelectedProject}"
+                                      util:GridViewSort.AutoSort="True">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Проект"
+                                                    DisplayMemberBinding="{Binding Path=Name}"
+                                                    util:GridViewSort.PropertyName="Name"/>
+                                        <GridViewColumn Header="Заказчик"
+                                                    DisplayMemberBinding="{Binding Path=CustomerCompany}"
+                                                    util:GridViewSort.PropertyName="CustomerCompany"/>
+                                        <GridViewColumn Header="Исполнитель"
+                                                    DisplayMemberBinding="{Binding Path=ExecutingCompany}"
+                                                    util:GridViewSort.PropertyName="ExecutingCompany"/>
+                                        <GridViewColumn Header="Дата начала"
+                                                    DisplayMemberBinding="{Binding Path=Start}"
+                                                    util:GridViewSort.PropertyName="Start"/>
+                                        <GridViewColumn Header="Дата завершения"
+                                                    DisplayMemberBinding="{Binding Path=End}"
+                                                    util:GridViewSort.PropertyName="End"/>
+                                        <GridViewColumn Header="Приоритет"
+                                                    DisplayMemberBinding="{Binding Path=Priority}"
+                                                    util:GridViewSort.PropertyName="Priority"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </Border>
+                     
+                    <!--Edit Project-->
+                    <Border Grid.Column="2" Style="{StaticResource WindowBorder}">
+                        <view:ProjectView DataContext="{Binding EditProjectVM}"/>
                     </Border>
                 </Grid>
             </TabItem>
 
+            <!--Tab Employess-->
             <TabItem Header="Сотрудники" DataContext="{Binding EmployeesTabVM}">
                 <Grid Background="{StaticResource BaseBrush}">
                     <Grid.ColumnDefinitions>
@@ -51,19 +140,33 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
+                    <!--Menu-->
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <Button Style="{StaticResource MenuButton}" Content="Добавить" Command="{Binding AddCommand}"/>
                         <Button Style="{StaticResource MenuButton}" Content="Редактировать" Command="{Binding EditCommand}"/>
                         <Button Style="{StaticResource MenuButton}" Content="Удалить" Command="{Binding DeleteCommand}"/>
                     </StackPanel>
 
-                    <ListView Grid.Column="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+                    <!--List Employees-->
+                    <ListView Grid.Column="1"
+                              ItemsSource="{Binding Employees}"
+                              SelectedItem="{Binding SelectedEmployee}"
+                              Margin="2"
+                              util:GridViewSort.AutoSort="True">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Имя" Width="Auto" DisplayMemberBinding="{Binding Path=Name}"/>
-                                <GridViewColumn Header="Фамилия" Width="Auto" DisplayMemberBinding="{Binding Path=Surname}"/>
-                                <GridViewColumn Header="Отчество" Width="Auto" DisplayMemberBinding="{Binding Path=Patronymic}"/>
-                                <GridViewColumn Header="Email" Width="Auto" DisplayMemberBinding="{Binding Path=Email}"/>
+                                <GridViewColumn Header="Имя"
+                                                DisplayMemberBinding="{Binding Path=Name}"
+                                                util:GridViewSort.PropertyName="Name"/>
+                                <GridViewColumn Header="Фамилия"
+                                                DisplayMemberBinding="{Binding Path=Surname}"
+                                                util:GridViewSort.PropertyName="Surname"/>
+                                <GridViewColumn Header="Отчество"
+                                                DisplayMemberBinding="{Binding Path=Patronymic}"
+                                                util:GridViewSort.PropertyName="Patronymic"/>
+                                <GridViewColumn Header="Email"
+                                                DisplayMemberBinding="{Binding Path=Email}"
+                                                util:GridViewSort.PropertyName="Email"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

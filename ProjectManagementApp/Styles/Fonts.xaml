@@ -4,6 +4,7 @@
 
 
     <FontFamily x:Key="BaseFont">Segoe UI</FontFamily>
+    <system:Double x:Key="Small">12</system:Double>
     <system:Double x:Key="Regular">14</system:Double>
     <system:Double x:Key="Big">16</system:Double>
 

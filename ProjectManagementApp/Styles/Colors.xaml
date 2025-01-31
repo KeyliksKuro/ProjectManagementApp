@@ -9,4 +9,7 @@
 
     <Color x:Key="ButtonCollor">#FFF3FFDE</Color>
     <SolidColorBrush x:Key="ButtonBrush" Color="{StaticResource ButtonCollor}"/>
+
+    <Color x:Key="BorderCollor">#FF828790</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderCollor}"/>
 </ResourceDictionary>

@@ -15,8 +15,8 @@ namespace ProjectManagementApp.ViewModel
     class EmployeesTabVM : ViewModelBase
     {
         private Employee? selectedEmployee;
-
         public ObservableCollection<Employee> Employees { get; set; }
+
         public Employee? SelectedEmployee
         {
             get { return selectedEmployee; }
@@ -25,6 +25,11 @@ namespace ProjectManagementApp.ViewModel
                 selectedEmployee = value;
                 OnPropertyChanged();
             }
+        }
+
+        public EmployeesTabVM()
+        {
+            Employees = DataWorker.GetAllEmployees();
         }
 
         #region MENU COMMANDS

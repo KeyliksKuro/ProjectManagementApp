@@ -9,11 +9,15 @@ namespace ProjectManagementApp.Model
 {
     public static class DataWorker
     {
-        private static ObservableCollection<Employee> Employees;
-        private static ObservableCollection<Project> Projects;
+        private static ObservableCollection<Employee> employees;
+        private static ObservableCollection<Project> projects;
+        private static List<string> customerCompanies;
+        private static List<string> executingCompanies;
+        private static List<int> priorities;
+
         static DataWorker()
         {
-            Employees = new ObservableCollection<Employee>()
+            employees = new ObservableCollection<Employee>()
             {
                 new Employee()
                 {
@@ -44,20 +48,20 @@ namespace ProjectManagementApp.Model
                     Email = "name4@mail"
                 }
             };
-            Projects = new ObservableCollection<Project>()
+            projects = new ObservableCollection<Project>()
             {
                 new Project()
                 {
                     Name = "Project1",
                     CustomerCompany = "Company1",
                     ExecutingCompany = "Company2",
-                    ProjectManager = Employees[0],
+                    ProjectManager = employees[0],
                     Employees = new ObservableCollection<Employee>()
                     {
-                        Employees[1]
+                        employees[1]
                     },
-                    Start = DateTime.Now,
-                    End = DateTime.Now,
+                    Start = new DateTime(2025, 01, 10),
+                    End = new DateTime(2025, 01, 20),
                     Priority = 5
                 },
                 new Project()
@@ -65,25 +69,41 @@ namespace ProjectManagementApp.Model
                     Name = "Project2",
                     CustomerCompany = "Company1",
                     ExecutingCompany = "Company3",
-                    ProjectManager = Employees[2],
+                    ProjectManager = employees[2],
                     Employees = new ObservableCollection<Employee>()
                     {
-                        Employees[3]
+                        employees[3]
                     },
                     Start = DateTime.Now,
                     End = DateTime.Now,
-                    Priority = 5
+                    Priority = 3
                 }
             };
+
+            customerCompanies = projects.Select(x => x.CustomerCompany).Distinct().ToList();
+            executingCompanies = projects.Select(x => x.ExecutingCompany).Distinct().ToList();
+            priorities = projects.Select(x => x.Priority).Distinct().ToList();
         }
 
         public static ObservableCollection<Employee> GetAllEmployees()
         {
-            return Employees;
+            return employees;
         }
         public static ObservableCollection<Project> GetAllProjects()
         {
-            return Projects;
+            return projects;
+        }
+        public static List<string> GetAllCustomerCompanies()
+        {
+            return customerCompanies;
+        }
+        public static List<string> GetAllExecutingCompanies()
+        {
+            return executingCompanies;
+        }
+        public static List<int> GetAllPriorities()
+        {
+            return priorities;
         }
         public static Employee CopyEmployee(Employee employee)
         {
