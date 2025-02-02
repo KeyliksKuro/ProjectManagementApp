@@ -12,7 +12,7 @@ namespace ProjectManagementApp.ViewModel.ProjectWizard
         private List<WizardBaseVM> pages;
         public Project Project { get; set; }
 
-        public event Action CompleteFilling;
+        public event Action FillingComplete;
         private event Action<Project> DataIsFilled;
 
         public AddProjectVM()
@@ -102,7 +102,7 @@ namespace ProjectManagementApp.ViewModel.ProjectWizard
         private void OnCompleteFilling()
         {
             DataIsFilled?.Invoke(Project);
-            CompleteFilling?.Invoke();
+            FillingComplete?.Invoke();
         }
     }
 }

@@ -29,18 +29,20 @@
             </Style>
         </Grid.Resources>
 
-
         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">
             <TextBlock Text="Руководитель проекта" Style="{StaticResource EditText}"/>
-            <ComboBox ItemsSource="{Binding Employees}"
-                      SelectedItem="{Binding SelectedProject.ProjectManager}"/>
+            <ComboBox ItemsSource="{Binding EmployeesForPmView}"
+                      SelectedItem="{Binding ProjectManager}"
+                      Text="{Binding SearchPm, UpdateSourceTrigger=PropertyChanged}"
+                      IsEditable="True"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
             <TextBlock Text="Сотрудники" Style="{StaticResource EditText}"/>
-            <ComboBox ItemsSource="{Binding Employees}"
-                          SelectedItem="{Binding SelectedEmployeeToAdd}"
-                          IsTextSearchEnabled="True" IsEditable="True"/>
+            <ComboBox ItemsSource="{Binding EmployeesView}"
+                      SelectedItem="{Binding SelectedEmployeeToAdd}"
+                      Text="{Binding SearchEmployee, UpdateSourceTrigger=PropertyChanged}"
+                      IsEditable="True"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -48,15 +50,15 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
-                            Content="Добавить"
-                            Command="{Binding AddEmployeeCommand}"/>
+                        Content="Добавить"
+                        Command="{Binding AddCommand}"/>
                 <Button Grid.Column="1"
-                            Content="Удалить"
-                            Command="{Binding RemoveEmployeeCommand}"/>
+                        Content="Удалить"
+                        Command="{Binding RemoveCommand}"/>
             </Grid>
-            <ListBox ItemsSource="{Binding SelectedProject.Employees}"
-                         SelectedItem="{Binding SelectedEmployeeToRemove}"
-                         Height="150"/>
+            <ListBox ItemsSource="{Binding EmployeesInProject}"
+                     SelectedItem="{Binding SelectedEmployeeToRemove}"
+                     Height="130"/>
         </StackPanel>
     </Grid>
 </UserControl>

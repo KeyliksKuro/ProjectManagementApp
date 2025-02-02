@@ -94,9 +94,13 @@ namespace ProjectManagementApp.ViewModel
                   (addCommand = new RelayCommand(obj =>
                   {
                       var project = new Project();
+                      var vm = new AddProjectVM()
+                      {
+                          Project = project
+                      };
                       var window = new CreationProjectWindow();
-                      var vm = new AddProjectVM();
-                      vm.CompleteFilling += () =>
+
+                      vm.FillingComplete += () =>
                       {
                           Projects.Add(project);
                           window.Close();
