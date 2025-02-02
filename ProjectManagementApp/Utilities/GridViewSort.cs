@@ -14,7 +14,6 @@ namespace ProjectManagementApp.Utilities
     class GridViewSort
     {
         #region Attached properties
-
         public static ICommand GetCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
@@ -113,11 +112,9 @@ namespace ProjectManagementApp.Utilities
                 typeof(GridViewSort),
                 new UIPropertyMetadata(null)
             );
-
         #endregion
 
         #region Column header click event handler
-
         private static void ColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
@@ -145,11 +142,9 @@ namespace ProjectManagementApp.Utilities
                 }
             }
         }
-
         #endregion
 
         #region Helper methods
-
         public static T GetAncestor<T>(DependencyObject reference) where T : DependencyObject
         {
             DependencyObject parent = VisualTreeHelper.GetParent(reference);
@@ -183,7 +178,6 @@ namespace ProjectManagementApp.Utilities
                 view.SortDescriptions.Add(new SortDescription(propertyName, direction));
             }
         }
-
         #endregion
     }
 }

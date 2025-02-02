@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ProjectManagementApp.Services.Commands
+namespace ProjectManagementApp.Utilities
 {
     internal class RelayCommand : ICommand
     {

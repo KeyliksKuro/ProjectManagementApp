@@ -19,7 +19,7 @@
                 </Style>
             </ScrollViewer.Style>
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="30,0,30,30">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0,20,20">
                 <TextBlock Text="Проект" Style="{StaticResource EditText}"/>
                 <TextBox Text="{Binding Path=SelectedProject.Name, UpdateSourceTrigger=PropertyChanged}"/>
                 
@@ -30,20 +30,28 @@
                 <TextBox Text="{Binding Path=SelectedProject.ExecutingCompany, UpdateSourceTrigger=PropertyChanged}"/>
                 
                 <TextBlock Text="Руководитель проекта" Style="{StaticResource EditText}"/>
-                <ComboBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedProject.ProjectManager}"/>
+                <ComboBox ItemsSource="{Binding Employees}"
+                          SelectedItem="{Binding SelectedProject.ProjectManager}"/>
                 
                 <TextBlock Text="Сотрудники" Style="{StaticResource EditText}"/>
-                <ComboBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployeeToAdd}"/>
+                <ComboBox ItemsSource="{Binding Employees}"
+                          SelectedItem="{Binding SelectedEmployeeToAdd}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Content="Добавить" Command="{Binding AddEmployeeCommand}"/>
-                    <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveEmployeeCommand}"/>
+                    <Button Grid.Column="0"
+                            Content="Добавить"
+                            Command="{Binding AddEmployeeCommand}"/>
+                    <Button Grid.Column="1"
+                            Content="Удалить"
+                            Command="{Binding RemoveEmployeeCommand}"/>
                 </Grid>
-                <ListBox ItemsSource="{Binding SelectedProject.Employees}" Height="150" SelectedItem="{Binding SelectedEmployeeToRemove}"/>
+                <ListBox ItemsSource="{Binding SelectedProject.Employees}"
+                         SelectedItem="{Binding SelectedEmployeeToRemove}"
+                         Height="150"/>
 
                 <TextBlock Text="Дата начала" Style="{StaticResource EditText}"/>
                 <DatePicker SelectedDate="{Binding Path=SelectedProject.Start}"/>

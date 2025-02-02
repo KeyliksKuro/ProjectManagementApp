@@ -29,7 +29,7 @@
 
                     <!--Menu-->
                     <StackPanel Grid.Column="0" Orientation="Vertical">
-                        <Button Style="{StaticResource MenuButton}" Content="Добавить"/>
+                        <Button Style="{StaticResource MenuButton}" Content="Добавить" Command="{Binding AddCommand}"/>
                         <Button Style="{StaticResource MenuButton}" Content="Удалить" Command="{Binding DeleteCommand}"/>
                     </StackPanel>
 
@@ -40,7 +40,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-
+                            
                             <!--Filters-->
                             <Expander Grid.Row="0"
                                       Header="Фильтры"

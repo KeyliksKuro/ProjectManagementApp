@@ -50,7 +50,7 @@ namespace ProjectManagementApp.Model
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Employee> Employees { get; set; }
+        public ObservableCollection<Employee>? Employees { get; set; }
         public DateTime Start
         {
             get => start; set

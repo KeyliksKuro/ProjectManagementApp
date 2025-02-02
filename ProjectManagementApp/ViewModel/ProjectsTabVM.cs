@@ -1,12 +1,10 @@
 ﻿using ProjectManagementApp.Model;
-using ProjectManagementApp.Services.Commands;
-using System;
-using System.Collections.Generic;
+using ProjectManagementApp.Utilities;
+using ProjectManagementApp.View.ProjectWizard;
+using ProjectManagementApp.ViewModel.ProjectWizard;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace ProjectManagementApp.ViewModel
@@ -18,11 +16,10 @@ namespace ProjectManagementApp.ViewModel
         private int? filterPriority;
         private DateTime? filterStartLeftBorder;
         private DateTime? filterStartRightBorder;
-
-        public EditProjectVM EditProjectVM { get; set; }
-        public ObservableCollection<Project> Projects { get; set; }
+        private ObservableCollection<Project> Projects { get; set; }
         private CollectionViewSource CvsProjects { get; set; }
         public ICollectionView ProjectsView { get => CvsProjects.View; }
+        public EditProjectVM EditProjectVM { get; set; }
         public List<string>? CustomerCompanies { get; set; }
         public List<string>? ExecutingCompanies { get; set; }
         public List<int>? Priorities { get; set; }
@@ -88,6 +85,29 @@ namespace ProjectManagementApp.ViewModel
         #endregion
 
         #region MENU COMMANDS
+        private RelayCommand addCommand;
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return addCommand ??
+                  (addCommand = new RelayCommand(obj =>
+                  {
+                      var project = new Project();
+                      var window = new CreationProjectWindow();
+                      var vm = new AddProjectVM();
+                      vm.CompleteFilling += () =>
+                      {
+                          Projects.Add(project);
+                          window.Close();
+                      };
+                      window.DataContext = vm;
+
+                      window.Owner = Application.Current.MainWindow;
+                      window.ShowDialog();
+                  }));
+            }
+        }
         private RelayCommand deleteCommand;
         public RelayCommand DeleteCommand
         {
@@ -135,7 +155,6 @@ namespace ProjectManagementApp.ViewModel
             }
         }
         #endregion
-
         private void FillFilters()
         {
             CustomerCompanies = DataWorker.GetAllCustomerCompanies();

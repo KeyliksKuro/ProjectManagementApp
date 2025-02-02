@@ -9,8 +9,7 @@
         
         d:DataContext="{d:DesignInstance Type=m:Employee}"
         
-        x:Name="editEmployeeWnd"
-        Title="Ввода данных сотрудника"
+        Title="Ввод данных сотрудника"
         Height="300"
         Width="300"
         ResizeMode="NoResize"

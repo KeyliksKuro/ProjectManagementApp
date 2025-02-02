@@ -1,0 +1,59 @@
+﻿<Window x:Class="ProjectManagementApp.View.ProjectWizard.CreationProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectManagementApp.View.ProjectWizard"
+        xmlns:vmpw="clr-namespace:ProjectManagementApp.ViewModel.ProjectWizard"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vmpw:AddProjectVM, IsDesignTimeCreatable=True}"
+        
+        Title="{Binding CurrentPage.Title}"
+        Width="640"
+        Height="450"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Background="{StaticResource BaseBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource WindowBorder}"
+                Background="{StaticResource BaseBrush}"
+                Margin="5,5,5,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <ContentPresenter Grid.Column="1"
+                                  Content="{Binding CurrentPage}"
+                                  DataContext="{Binding CurrentPage}"/>
+            </Grid>
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Content="Отмена"
+                    Style="{StaticResource WizardButton}"
+                    Click="Button_Click"/>
+
+            <Button Command="{Binding MoveNextCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource WizardButton}">
+                        <Setter Property="Content" Value="Вперёд"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsOnLastPage}" Value="True">
+                                <Setter Property="Content" Value="Завершить"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Назад"
+                    Style="{StaticResource WizardButton}"
+                    Command="{Binding MovePreviousCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

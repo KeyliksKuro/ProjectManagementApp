@@ -12,6 +12,19 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Background" Value="{StaticResource ButtonBrush}"/>
     </Style>
+
+    <Style x:Key="WizardButton" TargetType="Button">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="2"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="{StaticResource ButtonBrush}"/>
+    </Style>
+
     <Style x:Key="FilterButton" TargetType="Button">
         <Style.Resources>
             <Style TargetType="Border">
